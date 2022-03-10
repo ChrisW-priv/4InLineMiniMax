@@ -53,6 +53,8 @@ char convert_board_cell_to_char(BOARD_CELL cell){
     }
 }
 
+
+/// returns the type of cell corresponding with first player
 BOARD_CELL get_cell_type_for_player(int player){
     return player ? BOARD_CELL::PLAYER1 : BOARD_CELL::PLAYER2;
 }
