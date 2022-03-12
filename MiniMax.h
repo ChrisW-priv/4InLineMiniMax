@@ -14,7 +14,9 @@ std::unordered_map<uint64_t, int> transposition_table{};
 
 
 int MiniMax(FourInLine position, int depth, int maximising_player=1, int alfa=-infinity, int beta=infinity){
-    if (transposition_table.find(position.position_hash) != transposition_table.end()) { return transposition_table.at(position.position_hash);}
+    // if position is already calculated - return the calculated value
+    if (transposition_table.find(position.position_hash) != transposition_table.end()) { return transposition_table.at(position.position_hash); }
+
     if (position.game_stops()) {return maximising_player ? -infinity : infinity;}
     if (depth == 0) return position.eval_position();
 

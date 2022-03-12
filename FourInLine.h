@@ -69,7 +69,7 @@ struct FourInLine {
         memset(board, BOARD_CELL::EMPTY, sizeof(board));
         for (int i = 0; i < MAX_Y; ++i) {
             for (int j = 0; j < MAX_X; ++j) {
-                position_hash ^= get_hash_for_cell(j,i, MAX_Y, BOARD_CELL::EMPTY);
+                position_hash ^= hash_table[i][j][BOARD_CELL::EMPTY];
             }
         }
     };
@@ -132,7 +132,7 @@ struct FourInLine {
         for (int i = 0; i < MAX_Y; ++i) {
             for (int j = 0; j < MAX_X; ++j) {
                 BOARD_CELL cell = board[i][j];
-                position_hash ^= hash_table[i*MAX_X+j][cell];
+                position_hash ^= hash_table[i][j][cell];
             }
         }
     }
@@ -160,12 +160,12 @@ struct FourInLine {
         BOARD_CELL player_cell_type = get_cell_type_for_player(player);
         if (move_is_valid(move)) {
             int _highest = highest(move);
-            BOARD_CELL* ptr_to_pos = &board[_highest][move];
-            uint64_t hash_of_emtpy_cell = get_hash_for_cell(move, _highest, MAX_Y, *ptr_to_pos);
-            uint64_t hash_of_player_on_cell = get_hash_for_cell(move, _highest, MAX_Y, player_cell_type);
-            *ptr_to_pos= player_cell_type;
-            position_hash ^= hash_of_emtpy_cell;
-            position_hash ^= hash_of_player_on_cell;
+            board[_highest][move] = player_cell_type;
+
+            // hash-out empty at cell
+            position_hash ^= hash_table[move][_highest][BOARD_CELL::EMPTY];
+            // hash-in a player at cell
+            position_hash ^= hash_table[move][_highest][player_cell_type];
         } else {
             cout << "Move is invalid!\n" << "arguments passed:\nmove: " << move << "\nplayer_symbol: " << player_cell_type << '\n';
             exit(-2);

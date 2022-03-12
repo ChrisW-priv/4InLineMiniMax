@@ -8,7 +8,7 @@ using std::cout;
 #define TEST 1
 
 int main() {
-    init_hash_table(42, 3);
+    init_hash_table();
 
 #if TEST
     run_tests();
