@@ -152,7 +152,7 @@ struct FourInLine {
     /// Returns 1 if move is valid.
     /// Checks if move in range and if column is not full.
     int move_is_valid(int move){
-        return !(move < 0 || 7 <= move || highest(move) == -1);
+        return highest(move) != -1 && move >= 0 && 7 > move;
     }
 
     /// changes board of current instance of class
