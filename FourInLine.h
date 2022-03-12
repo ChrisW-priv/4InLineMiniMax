@@ -82,6 +82,7 @@ struct FourInLine {
                 this->board[j][i] = convert_char_to_board_cell(cell);
             }
         }
+        hash_position();
     }
 
     /// Constructor taking the filename as an input allowing to import a board from file
@@ -99,6 +100,7 @@ struct FourInLine {
             }
             j++;
         }
+        hash_position();
     }
 
     /// Standard output for a board position: print line by line separated by "|" for columns and "-" for rows
