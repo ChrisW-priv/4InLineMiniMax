@@ -129,7 +129,7 @@ void run_tests() {
     cout << "function took: " << float(end - start)/CLOCKS_PER_SEC << " for a depth of " << depth << '\n';
     cout << "value of a base position: " << value << '\n';
 
-    // currently, worthless - whatever value of depth, tru test is from depth 1
+    // currently, worthless - whatever value of depth, true test is from depth 1
     mini_max_consecutive_depth_performance_test(9, 1, "");
     mini_max_consecutive_depth_performance_test(9, 1, "../TEST_BOARDS/test_board7.txt");
 #endif
