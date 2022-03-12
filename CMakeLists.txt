@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 project(4InLine)
 
 set(CMAKE_CXX_STANDARD 20)
-set(Performance 0)
+set(Performance 1)
 
 add_executable(4InLine main.cpp MiniMax.h FourInLine.h auto_tests.h zobristhashing.h)
 
