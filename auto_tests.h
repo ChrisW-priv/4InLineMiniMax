@@ -49,14 +49,8 @@ int mini_max_test_case(int depth, int maximising_player, int expected, const str
 }
 
 
-int mini_max_consecutive_depth_performance_test(int depth, int maximising_player, const string& filename= ""){
-    FourInLine position;
-    if (filename.empty()){
-        cout << "testing the empty board!\n";
-        position = FourInLine{};
-    } else {
-        position = FourInLine{filename};
-    }
+int mini_max_consecutive_depth_performance_test(int depth, int maximising_player, const string& filename){
+    FourInLine position = FourInLine{filename};
     for (int i = 1; i <= depth; ++i) {
         clock_t start = clock();
         int value = MiniMax(position, i, maximising_player);
@@ -130,7 +124,6 @@ void run_tests() {
     cout << "value of a base position: " << value << '\n';
 
     // currently, worthless - whatever value of depth, true test is from depth 1
-    mini_max_consecutive_depth_performance_test(9, 1, "");
     mini_max_consecutive_depth_performance_test(9, 1, "../TEST_BOARDS/test_board7.txt");
 #endif
 }
