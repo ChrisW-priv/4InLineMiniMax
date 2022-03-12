@@ -49,7 +49,24 @@ int mini_max_test_case(int depth, int maximising_player, int expected, const str
 }
 
 
-int mini_max_performance_test(int depth, int maximising_player, const string& filename);
+int mini_max_consecutive_depth_performance_test(int depth, int maximising_player, const string& filename= ""){
+    FourInLine position;
+    if (filename.empty()){
+        cout << "testing the empty board!\n";
+        position = FourInLine{};
+    } else {
+        position = FourInLine{filename};
+    }
+    for (int i = 1; i <= depth; ++i) {
+        clock_t start = clock();
+        int value = MiniMax(position, i, maximising_player);
+        clock_t end = clock();
+        cout << "function took: " << float(end - start)/CLOCKS_PER_SEC << " for a depth of " << i << '\n';
+        cout << "value of a base position: " << value << '\n';
+    }
+    cout << '\n';
+    return 0;
+}
 
 
 void run_tests() {
@@ -103,14 +120,18 @@ void run_tests() {
     mini_max_test_case(2,1, 0, "../TEST_BOARDS/test_board7.txt", "test depth 2 for a winning player");
 #endif
 #if TEST_MINIMAX_PERFORMANCE
-    FourInLine position{"../TEST_BOARDS/test_board7.txt"};
-    for (int i = 0; i <= 10; ++i) {
-        clock_t start = clock();
-        int value = MiniMax(position, i, 1);
-        clock_t end = clock();
-        cout << "function took: " << float(end - start)/CLOCKS_PER_SEC << " for a depth of " << i << '\n';
-        cout << "value of a base position: " << value << '\n';
-    }
+    // test empty position, worst case scenario
+    FourInLine position{};
+    int depth = 12;
+    clock_t start = clock();
+    int value = MiniMax(position, depth, 1);
+    clock_t end = clock();
+    cout << "function took: " << float(end - start)/CLOCKS_PER_SEC << " for a depth of " << depth << '\n';
+    cout << "value of a base position: " << value << '\n';
+
+    // currently, worthless - whatever value of depth, tru test is from depth 1
+    mini_max_consecutive_depth_performance_test(9, 1, "");
+    mini_max_consecutive_depth_performance_test(9, 1, "../TEST_BOARDS/test_board7.txt");
 #endif
 }
 
