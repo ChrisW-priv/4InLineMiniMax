@@ -67,6 +67,11 @@ struct FourInLine {
 
     FourInLine(){
         memset(board, BOARD_CELL::EMPTY, sizeof(board));
+        for (int i = 0; i < MAX_Y; ++i) {
+            for (int j = 0; j < MAX_X; ++j) {
+                position_hash ^= get_hash_for_cell(j,i, MAX_Y, BOARD_CELL::EMPTY);
+            }
+        }
     };
 
     /// Constructor from a 2d char array
