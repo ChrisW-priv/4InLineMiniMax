@@ -1,3 +1,6 @@
+#ifndef ZOBRISTHASHING
+#define ZOBRISTHASHING
+
 #include <cstdint>
 #include <cstdlib>
 
@@ -26,3 +29,5 @@ uint64_t get_hash_for_cell(int x, int y, int col_count, int cell_type){
     int linear_pos = y * col_count + x;
     return hash_table[linear_pos][cell_type];
 }
+
+#endif
