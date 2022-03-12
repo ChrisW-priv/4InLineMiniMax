@@ -2,6 +2,7 @@
 #define FOURINLINE
 
 
+#include "zobristhashing.h"
 #include <vector>
 #include <iostream>
 #include <cstring>
@@ -62,6 +63,7 @@ BOARD_CELL get_cell_type_for_player(int player){
 
 struct FourInLine {
     BOARD_CELL board[6][7]{};
+    uint64_t position_hash{};
 
     FourInLine(){
         memset(board, BOARD_CELL::EMPTY, sizeof(board));
@@ -120,6 +122,16 @@ struct FourInLine {
         return stream;
     }
 
+    /// changes hash of a position
+    void hash_position(){
+        for (int i = 0; i < MAX_Y; ++i) {
+            for (int j = 0; j < MAX_X; ++j) {
+                BOARD_CELL cell = board[i][j];
+                position_hash ^= hash_table[i*MAX_X+j][cell];
+            }
+        }
+    }
+
     /// Returns int of row that contains the lowest empty cell.
     /// Returns -1 if entire column is full.
     int highest(int column){
@@ -142,7 +154,13 @@ struct FourInLine {
     void move(int move, int player){
         BOARD_CELL player_cell_type = get_cell_type_for_player(player);
         if (move_is_valid(move)) {
-            board[highest(move)][move] = player_cell_type;
+            int _highest = highest(move);
+            BOARD_CELL* ptr_to_pos = &board[_highest][move];
+            uint64_t hash_of_emtpy_cell = get_hash_for_cell(move, _highest, MAX_Y, *ptr_to_pos);
+            uint64_t hash_of_player_on_cell = get_hash_for_cell(move, _highest, MAX_Y, player_cell_type);
+            *ptr_to_pos= player_cell_type;
+            position_hash ^= hash_of_emtpy_cell;
+            position_hash ^= hash_of_player_on_cell;
         } else {
             cout << "Move is invalid!\n" << "arguments passed:\nmove: " << move << "\nplayer_symbol: " << player_cell_type << '\n';
             exit(-2);
