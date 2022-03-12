@@ -11,7 +11,7 @@
 
 int MiniMax(FourInLine position, int depth, int maximising_player=1, int alfa=-infinity, int beta=infinity){
     if (position.game_stops()) {return maximising_player ? -infinity : infinity;}
-    if (depth == 0) return position.eval_position(maximising_player);
+    if (depth == 0) return position.eval_position();
 
     vector<int> moves = position.possible_moves();
     if (maximising_player){

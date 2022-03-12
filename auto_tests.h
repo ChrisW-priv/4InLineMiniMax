@@ -9,8 +9,8 @@
 
 using std::cout, std::string;
 #define TEST_GAME_STOPS 0
-#define TEST_MINIMAX 1
-#define TEST_MINIMAX_PERFORMANCE 0
+#define TEST_MINIMAX 0
+#define TEST_MINIMAX_PERFORMANCE 1
 
 
 int game_stops_test_case(int move, int expected, const string& filename, const string& description){
@@ -47,6 +47,9 @@ int mini_max_test_case(int depth, int maximising_player, int expected, const str
         return 1;
     }
 }
+
+
+int mini_max_performance_test(int depth, int maximising_player, const string& filename);
 
 
 void run_tests() {
@@ -94,16 +97,19 @@ void run_tests() {
 #endif
 #if TEST_MINIMAX
     mini_max_test_case(2,1, infinity, "../TEST_BOARDS/test_board10.txt", "test depth 2 for a winning player");
-    mini_max_test_case(2,0, 1, "../TEST_BOARDS/test_board10.txt", "test depth 2 for a player that has to prevent winning move but has one column");
+    mini_max_test_case(2,0, infinity, "../TEST_BOARDS/test_board5.txt", "test depth 2 for a winning player");
+    mini_max_test_case(2,0, -infinity, "../TEST_BOARDS/test_board6.txt", "test depth 2 for a winning player");
+    mini_max_test_case(2,1, -1, "../TEST_BOARDS/test_board6.txt", "test depth 2 for a winning player");
+    mini_max_test_case(2,1, 0, "../TEST_BOARDS/test_board7.txt", "test depth 2 for a winning player");
 #endif
 #if TEST_MINIMAX_PERFORMANCE
-    FourInLine position{};
+    FourInLine position{"../TEST_BOARDS/test_board7.txt"};
     for (int i = 0; i <= 10; ++i) {
         clock_t start = clock();
         int value = MiniMax(position, i, 1);
         clock_t end = clock();
         cout << "function took: " << float(end - start)/CLOCKS_PER_SEC << " for a depth of " << i << '\n';
-        cout << "vaule of a base position: " << value << '\n';
+        cout << "value of a base position: " << value << '\n';
     }
 #endif
 }

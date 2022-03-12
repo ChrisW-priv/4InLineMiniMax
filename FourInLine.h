@@ -182,14 +182,14 @@ struct FourInLine {
     }
 
     /// Returns the evaluation score of the position
-    int eval_position(int player = -1) {
-        player = player == -1 ? current_player() : player;
+    int eval_position() {
+        int player = current_player();
         for (auto move1: possible_moves()) {
             // check if there is direct win
             FourInLine board_after_move1 = board_after_move(move1, player);
 
-            // technically this is already checked before in minimax function
-            if (board_after_move1.find4in_line(move1)) return player == 1 ? -infinity : infinity;
+            // technically this is needed for true evaluation but is already checked before in minimax function
+            // if (board_after_move1.find4in_line(move1)) return player == 1 ? -infinity : infinity;
 
             // check how many moves cause the player to lose
             int count_moves_causing_loss = 0;
