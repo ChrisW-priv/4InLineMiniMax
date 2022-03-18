@@ -125,7 +125,7 @@ struct FourInLine {
         return stream;
     }
 
-    /// changes hash of a position
+    /// creates a hash of the position
     void hash_position(){
         for (int i = 0; i < MAX_Y; ++i) {
             for (int j = 0; j < MAX_X; ++j) {
@@ -202,9 +202,10 @@ struct FourInLine {
         return !(count_cells_empty&1);
     }
 
-    /// Returns the evaluation score of the position
-    int eval_position() {
-        int player = current_player();
+    /// Returns the evaluation score of the position. Assumes that current player is maximising player.
+    /// This is a heuristic solution to the problem - we just count the move is causing the direct loss
+    int eval_position(int player) {
+        int count_moves_causing_loss = 0;
         for (auto move1: possible_moves()) {
             // check if there is direct win
             FourInLine board_after_move1 = board_after_move(move1, player);
@@ -213,13 +214,11 @@ struct FourInLine {
             // if (board_after_move1.find4in_line(move1)) return player == 1 ? -infinity : infinity;
 
             // check how many moves cause the player to lose
-            int count_moves_causing_loss = 0;
-            for (auto move2: board_after_move1.possible_moves()) {
-                if (board_after_move1.find4in_line(move2, !player)) count_moves_causing_loss++;
-                return player == 1 ? -count_moves_causing_loss : count_moves_causing_loss;
-            }
+            int i = 0;
+            while (i<MAX_X && !board_after_move1.find4in_line(i, !player)) ++i;
+            count_moves_causing_loss += i!=MAX_X;
         }
-        return 0;
+        return count_moves_causing_loss;
     }
 
     /// Checks if game reached a winning position for any of the players

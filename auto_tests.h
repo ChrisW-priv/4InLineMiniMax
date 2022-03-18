@@ -9,8 +9,8 @@
 
 using std::cout, std::string;
 #define TEST_GAME_STOPS 0
-#define TEST_MINIMAX 0
-#define TEST_MINIMAX_PERFORMANCE 1
+#define TEST_MINIMAX 1
+#define TEST_MINIMAX_PERFORMANCE 0
 
 
 int game_stops_test_case(int move, int expected, const string& filename, const string& description){
@@ -107,11 +107,10 @@ void run_tests() {
 
 #endif
 #if TEST_MINIMAX
-    mini_max_test_case(2,1, infinity, "../TEST_BOARDS/test_board10.txt", "test depth 2 for a winning player");
-    mini_max_test_case(2,0, infinity, "../TEST_BOARDS/test_board5.txt", "test depth 2 for a winning player");
-    mini_max_test_case(2,0, -infinity, "../TEST_BOARDS/test_board6.txt", "test depth 2 for a winning player");
-    mini_max_test_case(2,1, -1, "../TEST_BOARDS/test_board6.txt", "test depth 2 for a winning player");
-    mini_max_test_case(2,1, 0, "../TEST_BOARDS/test_board7.txt", "test depth 2 for a winning player");
+//    mini_max_test_case(2,1, infinity, "../TEST_BOARDS/test_board10.txt", "test depth 2 for a winning player");
+//    mini_max_test_case(2,0, infinity, "../TEST_BOARDS/test_board5.txt", "test depth 2 for a winning player");
+//    mini_max_test_case(2,1, -2, "../TEST_BOARDS/test_board6.txt", "test depth 2 for a winning player");
+    mini_max_test_case(2,1, -1, "../TEST_BOARDS/test_board7.txt", "test depth 2 for a winning player");
 #endif
 #if TEST_MINIMAX_PERFORMANCE
     // test empty position, worst case scenario
@@ -124,7 +123,7 @@ void run_tests() {
     cout << "value of a base position: " << value << '\n';
 
     // currently, worthless - whatever value of depth, true test is from depth 1
-    mini_max_consecutive_depth_performance_test(9, 1, "../TEST_BOARDS/test_board7.txt");
+    // mini_max_consecutive_depth_performance_test(9, 1, "../TEST_BOARDS/test_board7.txt");
 #endif
 }
 
